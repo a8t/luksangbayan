@@ -78,6 +78,7 @@ export async function PUT(
         location: data.location,
         details: data.details,
         organizers: data.organizers || "",
+        links: data.links || [],
         updatedAt: new Date(),
       })
       .where(eq(vigilEvents.id, parseInt(resolvedParams.id)))

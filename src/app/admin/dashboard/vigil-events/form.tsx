@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { ToastContainer, toast } from "react-toastify";
+
 interface VigilEventFormProps {
   event?: {
     id: number;
@@ -31,7 +33,6 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [linkErrors, setLinkErrors] = useState<string[]>([]);
   const [links, setLinks] = useState<string[]>(
@@ -129,7 +130,6 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    setSuccess(false);
 
     // Validate links before submission
     const linkValidationErrors = validateLinks(formData.links);
@@ -158,10 +158,12 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
         throw new Error(errorData.error || "Failed to save event");
       }
 
-      setSuccess(true);
-      setTimeout(() => {
-        router.push("/admin/dashboard");
-      }, 1500);
+      toast.success("Event saved successfully!");
+      if (!event) {
+        setTimeout(() => {
+          router.push("/admin/dashboard");
+        }, 1500);
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -206,19 +208,6 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
             />
           </svg>
           {error}
-        </div>
-      )}
-
-      {success && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 flex items-center">
-          <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Event {event ? "updated" : "created"} successfully! Redirecting...
         </div>
       )}
 
@@ -574,6 +563,16 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
           </button>
         </div>
       </form>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        theme="dark"
+      />
     </div>
   );
 }

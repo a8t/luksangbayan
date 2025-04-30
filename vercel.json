@@ -1,14 +1,23 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "framework": "nextjs",
+  "version": 2,
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/next"
     }
   ],
-  "hooks": {
-    "preBuild": "npm run db:migrate"
-  }
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "buildCommand": "npm run vercel-build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"]
 }

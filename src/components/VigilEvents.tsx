@@ -7,7 +7,6 @@ import {
   getCitiesByProvince,
 } from "../app/actions";
 
-import Image from "next/image";
 import { VigilEvent } from "@/types/vigilEvent";
 
 export default function VigilEvents() {

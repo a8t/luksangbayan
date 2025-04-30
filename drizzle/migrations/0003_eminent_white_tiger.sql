@@ -1,0 +1,1 @@
+ALTER TABLE "vigil_events" ADD COLUMN "links" text[] DEFAULT '{}' NOT NULL;

@@ -133,7 +133,7 @@ export default function VigilEvents() {
       <div className="grid gap-6 md:grid-cols-2">
         {filteredEvents.map((event) => (
           <div
-            key={event.city}
+            key={event.city + event.date.toString()}
             className="bg-gray-900/50 p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
           >
             <h3 className="text-xl font-serif mb-2">

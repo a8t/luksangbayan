@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const vigilEvents = pgTable("vigil_events", {
   id: serial("id").primaryKey(),
@@ -8,7 +8,7 @@ export const vigilEvents = pgTable("vigil_events", {
   time: text("time").notNull(),
   location: text("location").notNull(),
   details: text("details").notNull(),
-  organizers: jsonb("organizers").$type<string[]>().notNull(),
+  organizers: text("organizers").notNull().default(""),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

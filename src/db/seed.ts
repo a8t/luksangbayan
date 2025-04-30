@@ -31,7 +31,7 @@ export async function seedVigilEvents() {
           time: event.time,
           location: event.location,
           details: event.details,
-          organizers: event.organizers.split(",").map((org) => org.trim()),
+          organizers: event.organizers || "",
         }))
       );
 

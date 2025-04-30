@@ -16,6 +16,7 @@ interface VigilEvent {
   organizers: string;
   createdAt: string;
   updatedAt: string;
+  links: string;
 }
 
 export default function VigilEventPage() {
@@ -158,6 +159,30 @@ export default function VigilEventPage() {
                     Organizers
                   </h2>
                   <p className="text-gray-300">{event.organizers}</p>
+                </div>
+              )}
+
+              {event.links && (
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-100 mb-2">
+                    Links
+                  </h2>
+                  <div className="space-y-2">
+                    {event.links?.split("\n").map(
+                      (link, index) =>
+                        link.trim() && (
+                          <a
+                            key={index}
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-blue-400 hover:text-blue-300 transition-colors"
+                          >
+                            {link}
+                          </a>
+                        )
+                    )}
+                  </div>
                 </div>
               )}
 

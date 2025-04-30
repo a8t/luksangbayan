@@ -16,7 +16,6 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      console.log("Attempting login...");
       const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: {
@@ -25,17 +24,9 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ username, password }),
       });
 
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        Object.fromEntries(response.headers.entries())
-      );
-
       const data = await response.json();
-      console.log("Response data:", data);
 
       if (response.ok) {
-        console.log("Login successful, redirecting...");
         router.push("/admin/dashboard");
       } else {
         if (response.status === 429) {

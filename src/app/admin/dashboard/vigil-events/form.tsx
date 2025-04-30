@@ -13,6 +13,7 @@ interface VigilEventFormProps {
     location: string;
     details: string;
     organizers: string;
+    links: string[];
   };
 }
 
@@ -26,17 +27,117 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
     location: event?.location || "",
     details: event?.details || "",
     organizers: event?.organizers || "",
+    links: event?.links || [],
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [linkErrors, setLinkErrors] = useState<string[]>([]);
+  const [links, setLinks] = useState<string[]>(
+    event?.links ? event.links.filter(Boolean) : []
+  );
+  const [editingLinkIndex, setEditingLinkIndex] = useState<number | null>(null);
+  const [newLink, setNewLink] = useState("");
+
+  const validateUrl = (url: string): boolean => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const validateLinks = (links: string[]): string[] => {
+    return links
+      .map((link) => {
+        return validateUrl(link) ? "" : `"${link}" is not a valid URL`;
+      })
+      .filter((l) => l !== "");
+  };
+
+  const handleAddLink = () => {
+    if (!newLink.trim()) return;
+    if (!validateUrl(newLink)) {
+      setLinkErrors([`"${newLink}" is not a valid URL`]);
+      return;
+    }
+    setLinks([...links, newLink.trim()]);
+    setNewLink("");
+    setLinkErrors([]);
+    setFormData((prev) => ({
+      ...prev,
+      links: [...links, newLink.trim()],
+    }));
+  };
+
+  const handleEditLink = (index: number) => {
+    setEditingLinkIndex(index);
+    setNewLink(links[index]);
+  };
+
+  const handleUpdateLink = () => {
+    if (!newLink.trim() || editingLinkIndex === null) return;
+    if (!validateUrl(newLink)) {
+      setLinkErrors([`"${newLink}" is not a valid URL`]);
+      return;
+    }
+    const updatedLinks = [...links];
+    updatedLinks[editingLinkIndex] = newLink.trim();
+    setLinks(updatedLinks);
+    setNewLink("");
+    setEditingLinkIndex(null);
+    setLinkErrors([]);
+    setFormData((prev) => ({
+      ...prev,
+      links: updatedLinks,
+    }));
+  };
+
+  const handleDeleteLink = (index: number) => {
+    const updatedLinks = links.filter((_, i) => i !== index);
+    setLinks(updatedLinks);
+    setFormData((prev) => ({
+      ...prev,
+      links: updatedLinks,
+    }));
+  };
+
+  const handleCancelEdit = () => {
+    setNewLink("");
+    setEditingLinkIndex(null);
+    setLinkErrors([]);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setTouched((prev) => ({ ...prev, [name]: true }));
+
+    if (name === "newLink") {
+      const errors = validateUrl(value)
+        ? []
+        : [`"${value}" is not a valid URL`];
+      setLinkErrors(errors);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
     setSuccess(false);
+
+    // Validate links before submission
+    const linkValidationErrors = validateLinks(formData.links);
+    if (linkValidationErrors.length > 0) {
+      setLinkErrors(linkValidationErrors);
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const url = event
@@ -73,14 +174,6 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setTouched((prev) => ({ ...prev, [name]: true }));
-  };
-
   const handleBlur = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -90,7 +183,11 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
 
   const isFieldValid = (name: string) => {
     if (!touched[name]) return true;
-    return formData[name as keyof typeof formData].trim() !== "";
+    const value = formData[name as keyof typeof formData];
+    if (name === "links") {
+      return Array.isArray(value) && value.length > 0;
+    }
+    return typeof value === "string" && value.trim() !== "";
   };
 
   return (
@@ -296,13 +393,139 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
           </label>
           <input
             type="text"
-            name="organizers"
             id="organizers"
+            name="organizers"
             value={formData.organizers}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-black"
           />
+        </div>
+
+        <div>
+          <label
+            htmlFor="links"
+            className="block text-sm font-medium text-black mb-1"
+          >
+            Links
+          </label>
+          <div className="space-y-2">
+            {links.map((link, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-blue-600 hover:text-blue-800 hover:underline truncate"
+                >
+                  {link}
+                </a>
+                <button
+                  type="button"
+                  onClick={() => handleEditLink(index)}
+                  className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+                  aria-label="Edit link"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteLink(index)}
+                  className="p-2 text-red-600 hover:text-red-900 focus:outline-none"
+                  aria-label="Delete link"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-center space-x-2">
+            <input
+              type="text"
+              name="newLink"
+              value={newLink}
+              onChange={(e) => {
+                setNewLink(e.target.value);
+                setLinkErrors([]);
+              }}
+              placeholder="Enter a URL"
+              className={`flex-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-black ${
+                linkErrors.length > 0 ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {editingLinkIndex === null ? (
+              <button
+                type="button"
+                onClick={handleAddLink}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Add Link
+              </button>
+            ) : (
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={handleUpdateLink}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                >
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
+
+          {linkErrors.length > 0 && (
+            <div className="mt-2 text-sm text-red-600">
+              {linkErrors.map((error, index) => (
+                <p key={index} className="flex items-start">
+                  <svg
+                    className="h-4 w-4 mr-1 mt-0.5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {error}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-end space-x-4">

@@ -27,7 +27,12 @@ export default function AdminDashboard() {
     const fetchEvents = async () => {
       try {
         const response = await fetch("/api/admin/vigil-events");
-        if (!response.ok) throw new Error("Failed to fetch events");
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            return router.push("/admin/login");
+          }
+        }
         const data = await response.json();
         setEvents(data);
       } catch (err) {
@@ -39,7 +44,7 @@ export default function AdminDashboard() {
     };
 
     fetchEvents();
-  }, []);
+  }, [router]);
 
   const handleDelete = async (id: number, eventName: string) => {
     if (!confirm(`Are you sure you want to delete the event in ${eventName}?`))
@@ -93,6 +98,12 @@ export default function AdminDashboard() {
       </div>
     );
   }
+
+  const sortedEvents = events.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA.getTime() - dateB.getTime();
+  });
 
   return (
     <div className="min-h-screen bg-gray-900 py-6">
@@ -148,7 +159,7 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="bg-gray-800 divide-y divide-gray-700">
-                    {events.length === 0 ? (
+                    {sortedEvents.length === 0 ? (
                       <tr>
                         <td
                           colSpan={3}
@@ -158,7 +169,7 @@ export default function AdminDashboard() {
                         </td>
                       </tr>
                     ) : (
-                      events.map((event) => (
+                      sortedEvents.map((event) => (
                         <tr key={event.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <Link

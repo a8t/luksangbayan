@@ -12,6 +12,7 @@ interface VigilEvent {
   location: string;
   details: string;
   organizers: string;
+  links: string[];
 }
 
 export default function EditVigilEventPage({

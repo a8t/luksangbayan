@@ -9,10 +9,6 @@ export function middleware(request: NextRequest) {
   const isAdminPage = request.nextUrl.pathname.startsWith("/admin");
   const isLoginPage = request.nextUrl.pathname === "/admin/login";
 
-  console.log("Token:", token);
-  console.log("Is Admin Page:", isAdminPage);
-  console.log("Is Login Page:", isLoginPage);
-
   // Allow access to the login page
   if (isLoginPage) {
     // If user is already logged in and tries to access login page, redirect to dashboard

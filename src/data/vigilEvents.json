@@ -1,0 +1,173 @@
+[
+  {
+    "city": "Burnaby",
+    "province": "British Columbia",
+    "date": "April 30, 2024",
+    "time": "6:00 PM",
+    "location": "SUB Gardens, floor 3, 8888 University",
+    "details": "Community Vigil",
+    "organizers": "AB SFU, CPSHR, Embark, SFPIRG, ABBC, Kabangka"
+  },
+  {
+    "city": "Vancouver",
+    "province": "British Columbia",
+    "date": "May 2, 2024",
+    "time": "5:30 PM",
+    "location": "Collingwood Neighbourhood House, 2nd floor Program Room",
+    "details": "Letter Writing + Vigil",
+    "organizers": "AB SFU, CPSHR, Embark, SFPIRG, ABBC, Kabangka"
+  },
+  {
+    "city": "Surrey",
+    "province": "British Columbia",
+    "date": "April 30, 2024",
+    "time": "6:00 PM",
+    "location": "Holland Park fountain",
+    "details": "Candlelight Memorial Vigil",
+    "organizers": ""
+  },
+  {
+    "city": "Victoria",
+    "province": "British Columbia",
+    "date": "April 29, 2024",
+    "time": "1:00 PM - 7:00 PM",
+    "location": "1709 Blanshard St",
+    "details": "Prayer Vigil",
+    "organizers": "Bayanihan Community Centre"
+  },
+  {
+    "city": "Vancouver",
+    "province": "British Columbia",
+    "date": "April 29, 2024",
+    "time": "6:00 PM",
+    "location": "Pantry by Marpole park",
+    "details": "Silent Vigil",
+    "organizers": "Marpole Mutual Aid Network"
+  },
+  {
+    "city": "Vancouver",
+    "province": "British Columbia",
+    "date": "April 30, 2024",
+    "time": "2:30 PM",
+    "location": "University of British Columbia Bookstore",
+    "details": "Memorial Vigil",
+    "organizers": "Sulong UBC, UBC Kababayan"
+  },
+  {
+    "city": "Montreal",
+    "province": "Quebec",
+    "date": "April 28, 2024",
+    "time": "6:00 PM",
+    "location": "Mackenzie King Park @ 4905 Avenue",
+    "details": "Vigil + Town Hall",
+    "organizers": "PINAY, Migrante QC, Centre Kapwa, Filipinos of Montreal, MUFASA, FAMAS, Montreal Chinatown Roundtable, Beautiful Sabotage"
+  },
+  {
+    "city": "Ottawa",
+    "province": "Ontario",
+    "date": "April 28, 2024",
+    "time": "7:00 PM",
+    "location": "Parliament Hill",
+    "details": "Prayer Vigil",
+    "organizers": ""
+  },
+  {
+    "city": "Halifax",
+    "province": "Nova Scotia",
+    "date": "April 28, 2024",
+    "time": "7:00 PM",
+    "location": "Dingle Park",
+    "details": "Community Vigil",
+    "organizers": ""
+  },
+  {
+    "city": "Toronto",
+    "province": "Ontario",
+    "date": "April 29, 2024",
+    "time": "7:00 PM",
+    "location": "Peace Garden, Nathan Philips Square",
+    "details": "City Hall Vigil",
+    "organizers": ""
+  },
+  {
+    "city": "Winnipeg",
+    "province": "Manitoba",
+    "date": "April 29, 2024",
+    "time": "7:00 PM",
+    "location": "Philippine Canadian Centre of Manitoba",
+    "details": "Community Vigil",
+    "organizers": ""
+  },
+  {
+    "city": "Regina",
+    "province": "Saskatchewan",
+    "date": "April 29, 2024",
+    "time": "7:00 PM",
+    "location": "Holy Rosary Cathedral",
+    "details": "Community Vigil",
+    "organizers": "Filipino Canadian Association of Saskatchewan"
+  },
+  {
+    "city": "Seattle",
+    "province": "Washington",
+    "date": "April 29, 2024",
+    "time": "5:00 PM",
+    "location": "5740 Martin Luther King Jr. Way",
+    "details": "Community Vigil",
+    "organizers": "Filipino Community of Seattle"
+  },
+  {
+    "city": "Saskatoon",
+    "province": "Saskatchewan",
+    "date": "April 30, 2024",
+    "time": "7:00 PM",
+    "location": "City Hall Civic Square",
+    "details": "Community Vigil",
+    "organizers": "Filipino Canadian Association of Saskatchewan"
+  },
+  {
+    "city": "Calgary",
+    "province": "Alberta",
+    "date": "April 30, 2024",
+    "time": "5:00 PM",
+    "location": "Calgary City Hall",
+    "details": "Community Vigil",
+    "organizers": "Fiesta Filipino"
+  },
+  {
+    "city": "Lethbridge",
+    "province": "Alberta",
+    "date": "May 1, 2024",
+    "time": "6:00 PM",
+    "location": "City Hall",
+    "details": "Unity and Light Vigil",
+    "organizers": ""
+  },
+  {
+    "city": "Yellowknife",
+    "province": "Northwest Territories",
+    "date": "May 2, 2024",
+    "time": "6:30 PM",
+    "location": "Somba K'e Ampitheatre",
+    "details": "Community Vigil",
+    "organizers": "Philippine Cultural Association of Yellowknife"
+  },
+  {
+    "city": "Fort Saskatchewan",
+    "province": "Alberta",
+    "date": "May 2, 2024",
+    "time": "6:00 PM",
+    "location": "Our Lady of the Angels Catholic Church",
+    "details": "Vigil Mass",
+    "organizers": ""
+  },
+  {
+    "city": "Edmonton",
+    "province": "Alberta",
+    "date": "April 30, 2024",
+    "time": "5:00 PM",
+    "location": "Edmonton City Hall",
+    "details": "Community Vigil",
+    "organizers": ""
+  }
+]

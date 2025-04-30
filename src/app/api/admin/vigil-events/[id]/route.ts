@@ -8,10 +8,17 @@ import { eq } from "drizzle-orm";
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 // GET /api/admin/vigil-events/[id]
-export async function GET(
-  _request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Event ID is required" },
+      { status: 400 }
+    );
+  }
+
   try {
     // Verify admin token
     const cookieStore = await cookies();
@@ -29,7 +36,7 @@ export async function GET(
     const [event] = await db
       .select()
       .from(vigilEvents)
-      .where(eq(vigilEvents.id, parseInt(params.id)));
+      .where(eq(vigilEvents.id, parseInt(id)));
 
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
@@ -46,10 +53,17 @@ export async function GET(
 }
 
 // PUT /api/admin/vigil-events/[id]
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Event ID is required" },
+      { status: 400 }
+    );
+  }
+
   try {
     // Verify admin token
     const cookieStore = await cookies();
@@ -77,7 +91,7 @@ export async function PUT(
         organizers: data.organizers || "",
         updatedAt: new Date(),
       })
-      .where(eq(vigilEvents.id, parseInt(params.id)))
+      .where(eq(vigilEvents.id, parseInt(id)))
       .returning();
 
     if (!updatedEvent) {
@@ -95,10 +109,17 @@ export async function PUT(
 }
 
 // DELETE /api/admin/vigil-events/[id]
-export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: Request) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Event ID is required" },
+      { status: 400 }
+    );
+  }
+
   try {
     // Verify admin token
     const cookieStore = await cookies();
@@ -115,7 +136,7 @@ export async function DELETE(
 
     const [deletedEvent] = await db
       .delete(vigilEvents)
-      .where(eq(vigilEvents.id, parseInt(params.id)))
+      .where(eq(vigilEvents.id, parseInt(id)))
       .returning();
 
     if (!deletedEvent) {

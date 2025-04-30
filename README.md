@@ -1,3 +1,63 @@
+# Luksangbayan
+
+A website for tracking vigil events across Canada.
+
+## Development
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Set up environment variables:
+```bash
+cp .env.example .env
+```
+Then edit `.env` with your database credentials.
+
+3. Run the development server:
+```bash
+npm run dev
+```
+
+## Database Setup
+
+1. Generate migrations:
+```bash
+npm run db:generate
+```
+
+2. Apply migrations:
+```bash
+npm run db:push
+```
+
+3. Seed the database:
+```bash
+npm run db:seed
+```
+
+## Deployment
+
+1. Push your code to GitHub
+
+2. Connect your repository to Vercel
+
+3. Add the following environment variables in Vercel:
+   - `DATABASE_URL`: Your Neon database connection string
+
+4. Deploy!
+
+The deployment will automatically:
+- Run database migrations
+- Build the Next.js application
+- Deploy to Vercel's edge network
+
+## Environment Variables
+
+- `DATABASE_URL`: Neon database connection string
+- `NODE_ENV`: Set to "production" in production
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

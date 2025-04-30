@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import vigilEvents from "../data/vigilEvents.json";
+import Image from "next/image";
 
 export default function VigilEvents() {
   const [selectedProvince, setSelectedProvince] = useState<string>("");
@@ -233,6 +234,21 @@ export default function VigilEvents() {
                 </svg>
                 {event.details}
               </p>
+            </div>
+            {/* OG Image for sharing */}
+            <div className="hidden">
+              <Image
+                src={`/og?city=${encodeURIComponent(
+                  event.city
+                )}&province=${encodeURIComponent(
+                  event.province
+                )}&date=${encodeURIComponent(
+                  event.date
+                )}&location=${encodeURIComponent(event.location)}`}
+                alt={`${event.city}, ${event.province} Vigil`}
+                width={1200}
+                height={630}
+              />
             </div>
           </div>
         ))}

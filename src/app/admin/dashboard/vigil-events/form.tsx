@@ -193,13 +193,13 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-black mb-6">
+    <div className="max-w-2xl mx-auto p-6 bg-gray-900 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-white mb-6">
         {event ? "Edit Event" : "Create New Event"}
       </h2>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex items-center">
+        <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded mb-4 flex items-center">
           <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"
@@ -216,7 +216,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
           <div>
             <label
               htmlFor="city"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               City
             </label>
@@ -228,21 +228,21 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
               value={formData.city}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isFieldValid("city")
-                  ? "border-gray-300"
-                  : "border-red-500 focus:ring-red-500"
-              } text-black`}
+                  ? "border-gray-700 text-gray-200"
+                  : "border-red-500 focus:ring-red-500 text-gray-200"
+              }`}
             />
             {!isFieldValid("city") && (
-              <p className="mt-1 text-sm text-red-600">City is required</p>
+              <p className="mt-1 text-sm text-red-400">City is required</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="province"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Province
             </label>
@@ -254,14 +254,14 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
               value={formData.province}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isFieldValid("province")
-                  ? "border-gray-300"
-                  : "border-red-500 focus:ring-red-500"
-              } text-black`}
+                  ? "border-gray-700 text-gray-200"
+                  : "border-red-500 focus:ring-red-500 text-gray-200"
+              }`}
             />
             {!isFieldValid("province") && (
-              <p className="mt-1 text-sm text-red-600">Province is required</p>
+              <p className="mt-1 text-sm text-red-400">Province is required</p>
             )}
           </div>
         </div>
@@ -270,7 +270,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
           <div>
             <label
               htmlFor="date"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Date
             </label>
@@ -282,21 +282,21 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
               value={formData.date}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isFieldValid("date")
-                  ? "border-gray-300"
-                  : "border-red-500 focus:ring-red-500"
-              } text-black`}
+                  ? "border-gray-700 text-gray-200"
+                  : "border-red-500 focus:ring-red-500 text-gray-200"
+              }`}
             />
             {!isFieldValid("date") && (
-              <p className="mt-1 text-sm text-red-600">Date is required</p>
+              <p className="mt-1 text-sm text-red-400">Date is required</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="time"
-              className="block text-sm font-medium text-black mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Time
             </label>
@@ -309,14 +309,15 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
               onChange={handleChange}
               onBlur={handleBlur}
               placeholder="e.g., 6:00 PM"
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                isFieldValid("time")
-                  ? "border-gray-300"
-                  : "border-red-500 focus:ring-red-500"
-              } text-black`}
+              className={`w-full px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 
+                ${
+                  isFieldValid("time")
+                    ? "border-gray-700 text-gray-200"
+                    : "border-red-500 focus:ring-red-500 text-gray-200"
+                }`}
             />
             {!isFieldValid("time") && (
-              <p className="mt-1 text-sm text-red-600">Time is required</p>
+              <p className="mt-1 text-sm text-red-400">Time is required</p>
             )}
           </div>
         </div>
@@ -324,7 +325,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
         <div>
           <label
             htmlFor="location"
-            className="block text-sm font-medium text-black mb-1"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Location
           </label>
@@ -336,21 +337,21 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
             value={formData.location}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               isFieldValid("location")
-                ? "border-gray-300"
-                : "border-red-500 focus:ring-red-500"
-            } text-black`}
+                ? "border-gray-700 text-gray-200"
+                : "border-red-500 focus:ring-red-500 text-gray-200"
+            }`}
           />
           {!isFieldValid("location") && (
-            <p className="mt-1 text-sm text-red-600">Location is required</p>
+            <p className="mt-1 text-sm text-red-400">Location is required</p>
           )}
         </div>
 
         <div>
           <label
             htmlFor="details"
-            className="block text-sm font-medium text-black mb-1"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Details
           </label>
@@ -362,21 +363,21 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
             value={formData.details}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               isFieldValid("details")
-                ? "border-gray-300"
-                : "border-red-500 focus:ring-red-500"
-            } text-black`}
+                ? "border-gray-700 text-gray-200"
+                : "border-red-500 focus:ring-red-500 text-gray-200"
+            }`}
           />
           {!isFieldValid("details") && (
-            <p className="mt-1 text-sm text-red-600">Details are required</p>
+            <p className="mt-1 text-sm text-red-400">Details are required</p>
           )}
         </div>
 
         <div>
           <label
             htmlFor="organizers"
-            className="block text-sm font-medium text-black mb-1"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Organizers
           </label>
@@ -387,14 +388,14 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
             value={formData.organizers}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-black"
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-gray-200"
           />
         </div>
 
         <div>
           <label
             htmlFor="links"
-            className="block text-sm font-medium text-black mb-1"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Links
           </label>
@@ -405,14 +406,14 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-blue-600 hover:text-blue-800 hover:underline truncate"
+                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-blue-400 hover:text-blue-300 hover:underline truncate"
                 >
                   {link}
                 </a>
                 <button
                   type="button"
                   onClick={() => handleEditLink(index)}
-                  className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+                  className="p-2 text-gray-400 hover:text-gray-200 focus:outline-none"
                   aria-label="Edit link"
                 >
                   <svg
@@ -432,7 +433,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
                 <button
                   type="button"
                   onClick={() => handleDeleteLink(index)}
-                  className="p-2 text-red-600 hover:text-red-900 focus:outline-none"
+                  className="p-2 text-red-400 hover:text-red-300 focus:outline-none"
                   aria-label="Delete link"
                 >
                   <svg
@@ -463,8 +464,8 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
                 setLinkErrors([]);
               }}
               placeholder="Enter a URL"
-              className={`flex-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-black ${
-                linkErrors.length > 0 ? "border-red-500" : "border-gray-300"
+              className={`flex-1 px-3 py-2 bg-gray-800 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-gray-200 ${
+                linkErrors.length > 0 ? "border-red-500" : "border-gray-700"
               }`}
             />
             {editingLinkIndex === null ? (
@@ -496,7 +497,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
           </div>
 
           {linkErrors.length > 0 && (
-            <div className="mt-2 text-sm text-red-600">
+            <div className="mt-2 text-sm text-red-400">
               {linkErrors.map((error, index) => (
                 <p key={index} className="flex items-start">
                   <svg
@@ -521,7 +522,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
           <button
             type="button"
             onClick={() => router.push("/admin/dashboard")}
-            className="px-4 py-2 border border-gray-300 rounded-md text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-4 py-2 border border-gray-700 rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             Cancel
           </button>

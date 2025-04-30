@@ -7,20 +7,29 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-og-images": "ts-node scripts/generate-og-images.ts"
+    "db:generate": "drizzle-kit generate:pg",
+    "db:push": "drizzle-kit push:pg",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx scripts/seed-db.ts"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.41.0",
+    "@neondatabase/serverless": "^1.0.0",
     "canvas": "^3.1.0",
+    "drizzle-orm": "^0.43.1",
     "next": "15.3.1",
+    "pg": "^8.15.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tsx": "^4.19.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.17.32",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "tailwindcss": "^4",

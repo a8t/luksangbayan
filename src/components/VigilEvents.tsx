@@ -1,49 +1,53 @@
 "use client";
 
-import { useState } from "react";
-import vigilEvents from "../data/vigilEvents.json";
+import { useEffect, useState } from "react";
+import {
+  getVigilEvents,
+  getUniqueProvinces,
+  getCitiesByProvince,
+} from "../app/actions";
+
 import Image from "next/image";
+import { VigilEvent } from "@/types/vigilEvent";
 
 export default function VigilEvents() {
+  const [events, setEvents] = useState<VigilEvent[]>([]);
+  const [provinces, setProvinces] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
 
-  const provinces = Array.from(
-    new Set(vigilEvents.map((event) => event.province))
-  );
+  useEffect(() => {
+    const loadData = async () => {
+      const [eventsData, provincesData] = await Promise.all([
+        getVigilEvents(),
+        getUniqueProvinces(),
+      ]);
+      setEvents(eventsData);
+      setProvinces(provincesData);
+    };
+    loadData();
+  }, []);
 
-  // Get cities based on selected province
-  const cities = selectedProvince
-    ? Array.from(
-        new Set(
-          vigilEvents
-            .filter((event) => event.province === selectedProvince)
-            .map((event) => event.city)
-        )
-      )
-    : Array.from(new Set(vigilEvents.map((event) => event.city)));
+  useEffect(() => {
+    const loadCities = async () => {
+      if (selectedProvince) {
+        const citiesData = await getCitiesByProvince(selectedProvince);
+        setCities(citiesData);
+        setSelectedCity("");
+      } else {
+        setCities([]);
+        setSelectedCity("");
+      }
+    };
+    loadCities();
+  }, [selectedProvince]);
 
-  const filteredEvents = vigilEvents
-    .filter((event) => {
-      if (selectedProvince && event.province !== selectedProvince) return false;
-      if (selectedCity && event.city !== selectedCity) return false;
-      return true;
-    })
-    .sort((a, b) => {
-      // Convert dates to timestamps for comparison
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateA - dateB;
-    });
-
-  const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProvince(e.target.value);
-    setSelectedCity(""); // Reset city when province changes
-  };
-
-  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCity(e.target.value);
-  };
+  const filteredEvents = events.filter((event) => {
+    if (selectedProvince && event.province !== selectedProvince) return false;
+    if (selectedCity && event.city !== selectedCity) return false;
+    return true;
+  });
 
   return (
     <section className="max-w-4xl mx-auto">
@@ -76,7 +80,7 @@ export default function VigilEvents() {
           <select
             id="province"
             value={selectedProvince}
-            onChange={handleProvinceChange}
+            onChange={(e) => setSelectedProvince(e.target.value)}
             className="w-full bg-gray-900/50 border border-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
           >
             <option value="">All Provinces</option>
@@ -118,7 +122,7 @@ export default function VigilEvents() {
           <select
             id="city"
             value={selectedCity}
-            onChange={handleCityChange}
+            onChange={(e) => setSelectedCity(e.target.value)}
             className="w-full bg-gray-900/50 border border-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
           >
             <option value="">All Cities</option>

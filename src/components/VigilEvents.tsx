@@ -3,16 +3,6 @@
 import { useState } from "react";
 import vigilEvents from "../data/vigilEvents.json";
 
-interface VigilEvent {
-  city: string;
-  province: string;
-  date: string;
-  time: string;
-  location: string;
-  details: string;
-  organizers: string;
-}
-
 export default function VigilEvents() {
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");

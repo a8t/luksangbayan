@@ -6,7 +6,7 @@ import {
   getUniqueProvinces,
   getCitiesByProvince,
 } from "../app/actions";
-
+import Link from "next/link";
 import { VigilEvent } from "@/types/vigilEvent";
 
 export default function VigilEvents() {
@@ -136,9 +136,10 @@ export default function VigilEvents() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {filteredEvents.map((event) => (
-          <div
-            key={event.city + event.date.toString()}
-            className="bg-gray-900/50 p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+          <Link
+            key={event.id}
+            href={`/vigil-events/${event.id}`}
+            className="block bg-gray-900/50 p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
             <h3 className="text-xl font-serif mb-2">
               {event.city}, {event.province}
@@ -220,7 +221,7 @@ export default function VigilEvents() {
                   {event.organizers}
                 </p>
               )}
-              <p className="mt-2">
+              <p className="mt-2 line-clamp-2">
                 <svg
                   className="w-4 h-4 inline-block mr-1"
                   fill="none"
@@ -238,7 +239,7 @@ export default function VigilEvents() {
                 {event.details}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

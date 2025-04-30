@@ -15,6 +15,13 @@
       "when": 1745986948842,
       "tag": "0001_flippant_richard_fisk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745987415783,
+      "tag": "0002_condemned_ravenous",
+      "breakpoints": true
     }
   ]
 }

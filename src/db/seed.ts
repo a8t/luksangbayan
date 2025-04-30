@@ -13,8 +13,6 @@ type VigilEvent = {
 };
 
 export async function seedVigilEvents() {
-  // create table if not exists
-
   try {
     // Check if table is empty
     const count = await db.select({ count: vigilEvents.id }).from(vigilEvents);
@@ -27,7 +25,7 @@ export async function seedVigilEvents() {
         (vigilEventsData as VigilEvent[]).map((event) => ({
           city: event.city,
           province: event.province,
-          date: event.date,
+          date: new Date(event.date),
           time: event.time,
           location: event.location,
           details: event.details,

@@ -16,7 +16,7 @@ interface VigilEvent {
   organizers: string;
   createdAt: string;
   updatedAt: string;
-  links: string;
+  links: string[];
 }
 
 export default function VigilEventPage() {
@@ -168,7 +168,7 @@ export default function VigilEventPage() {
                     Links
                   </h2>
                   <div className="space-y-2">
-                    {event.links?.split("\n").map(
+                    {event.links.map(
                       (link, index) =>
                         link.trim() && (
                           <a

@@ -3,9 +3,11 @@ import { db } from "@/db";
 import { vigilEvents } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const id = url.searchParams.get("id");
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
 
   if (!id) {
     return NextResponse.json(

@@ -131,23 +131,26 @@ export default function Home() {
       ) : (
         <motion.main
           key="content"
-          className="min-h-screen bg-black text-white"
+          className="min-h-screen bg-black text-white relative"
           initial="initial"
           animate="animate"
           variants={contentVariants}
         >
-          <div className="relative">
-            <div className="absolute inset-0 z-0">
-              <Image
-                src="/vigil.jpg"
-                alt="Candlelight vigil"
-                fill
-                className="object-cover brightness-15"
-                priority
-              />
-            </div>
+          {/* Fixed background container */}
+          <div className="fixed inset-0 w-full h-full z-0">
+            <Image
+              src="/vigil.jpg"
+              alt="Candlelight vigil"
+              fill
+              className="object-cover brightness-15 max-h-[1080px]"
+              priority
+              sizes="100vw"
+            />
+          </div>
 
-            <div className="container mx-auto px-4 py-8 relative z-10">
+          {/* Scrollable content */}
+          <div className="relative z-10">
+            <div className="container mx-auto px-4 py-8">
               <header className="text-center mb-12">
                 <h1 className="text-4xl md:text-6xl font-serif mb-4">
                   Luksang Bayan

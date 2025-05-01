@@ -142,7 +142,7 @@ export default function Home() {
                 src="/vigil.jpg"
                 alt="Candlelight vigil"
                 fill
-                className="object-fill brightness-15"
+                className="object-cover brightness-15"
                 priority
               />
             </div>

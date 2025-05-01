@@ -17,6 +17,15 @@ interface VigilEvent {
   updatedAt: string;
 }
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [events, setEvents] = useState<VigilEvent[]>([]);
@@ -182,8 +191,7 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-gray-300">
                             <time dateTime={event.date}>
-                              {new Date(event.date).toLocaleDateString()} at{" "}
-                              {event.time}
+                              {formatDate(event.date)} at {event.time}
                             </time>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

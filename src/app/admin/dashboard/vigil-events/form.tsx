@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ToastContainer, toast } from "react-toastify";
+import ImageUpload from "@/components/ImageUpload";
 
 interface VigilEventFormProps {
   event?: {
@@ -16,6 +17,7 @@ interface VigilEventFormProps {
     details: string;
     organizers: string;
     links: string[];
+    image?: string;
   };
 }
 
@@ -30,6 +32,7 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
     details: event?.details || "",
     organizers: event?.organizers || "",
     links: event?.links || [],
+    image: event?.image || "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -194,9 +197,33 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-gray-900 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-white mb-6">
-        {event ? "Edit Event" : "Create New Event"}
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-white">
+          {event ? "Edit Event" : "Create New Event"}
+        </h2>
+        
+        <button
+          onClick={() => router.push("/admin/dashboard")}
+          className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+          aria-label="Back to dashboard"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          Back
+        </button>
+      </div>
 
       {error && (
         <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded mb-4 flex items-center">
@@ -516,6 +543,22 @@ export default function VigilEventForm({ event }: VigilEventFormProps) {
               ))}
             </div>
           )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-gray-300 mb-1"
+          >
+            Event Image
+          </label>
+          <ImageUpload
+            onUpload={(url) => {
+              setFormData((prev) => ({ ...prev, image: url }));
+            }}
+            existingImageUrl={formData.image}
+            className="mb-6"
+          />
         </div>
 
         <div className="flex justify-end space-x-4">

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { db } from "@/db";
 import { vigilEvents } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import storage from "@/lib/storage";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
@@ -68,17 +69,30 @@ export async function PUT(
     }
 
     const data = await request.json();
+
+    // Get the current event to check if we need to delete an old image
+    const [currentEvent] = await db
+      .select()
+      .from(vigilEvents)
+      .where(eq(vigilEvents.id, parseInt(resolvedParams.id)));
+
+    // If there's an existing image and it's being changed, delete the old one
+    if (currentEvent?.image && currentEvent.image !== data.image) {
+      await storage.deleteFile(currentEvent.image);
+    }
+
     const [updatedEvent] = await db
       .update(vigilEvents)
       .set({
         city: data.city,
         province: data.province,
-        date: new Date(data.date),
+        date: data.date,
         time: data.time,
         location: data.location,
         details: data.details,
         organizers: data.organizers || "",
-        links: data.links || [],
+        links: data.links || undefined,
+        image: data.image || undefined,
         updatedAt: new Date(),
       })
       .where(eq(vigilEvents.id, parseInt(resolvedParams.id)))
@@ -116,6 +130,16 @@ export async function DELETE(
       verify(token, JWT_SECRET);
     } catch {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+    }
+
+    // Get the event to delete its image if it exists
+    const [event] = await db
+      .select()
+      .from(vigilEvents)
+      .where(eq(vigilEvents.id, parseInt(resolvedParams.id)));
+
+    if (event?.image) {
+      await storage.deleteFile(event.image);
     }
 
     const [deletedEvent] = await db

@@ -58,6 +58,7 @@ export default function MemorialWall() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState<FormData>(() => {
     const draft = getStoredDraft();
     return (
@@ -95,6 +96,7 @@ export default function MemorialWall() {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
+    setShowSuccess(false);
 
     try {
       const result = await createMemorialMessage(formData);
@@ -108,6 +110,9 @@ export default function MemorialWall() {
           email: "",
           message: "",
         });
+        setShowSuccess(true);
+        // Hide success message after 10 seconds
+        setTimeout(() => setShowSuccess(false), 10000);
       } else {
         setError(result.error || "Failed to submit message");
       }
@@ -145,6 +150,18 @@ export default function MemorialWall() {
             {error && (
               <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded mb-4">
                 {error}
+              </div>
+            )}
+
+            {showSuccess && (
+              <div className="bg-emerald-900/50 border border-emerald-700 text-emerald-200 px-4 py-3 rounded mb-4">
+                <p>
+                  Thank you for sharing your message. It has been submitted for
+                  review and will appear on the memorial wall once approved.
+                </p>
+                <p className="text-sm mt-1">
+                  This usually takes less than 24 hours.
+                </p>
               </div>
             )}
 

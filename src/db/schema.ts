@@ -22,4 +22,17 @@ export const vigilEvents = pgTable("vigil_events", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const memorialMessages = pgTable("memorial_messages", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  city: text("city").notNull(),
+  province: text("province").notNull(),
+  country: text("country").notNull().default("Canada"),
+  email: text("email"),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export type VigilEvent = typeof vigilEvents.$inferSelect;
+export type MemorialMessage = typeof memorialMessages.$inferSelect;
+export type NewMemorialMessage = typeof memorialMessages.$inferInsert;

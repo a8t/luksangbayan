@@ -8,6 +8,39 @@ import {
 } from "../app/actions";
 import Link from "next/link";
 import { VigilEvent } from "@/types/vigilEvent";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const filterVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
 export default function VigilEvents() {
   const [events, setEvents] = useState<VigilEvent[]>([]);
@@ -49,12 +82,16 @@ export default function VigilEvents() {
   });
 
   return (
-    <section className="max-w-4xl mx-auto">
-      <h2 className="text-2xl md:text-3xl font-serif text-center mb-8">
-        Vigil Events Across Canada
-      </h2>
-
-      <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
+    <motion.section
+      className="max-w-4xl mx-auto"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div
+        className="flex flex-col md:flex-row gap-4 mb-8 justify-center"
+        variants={filterVariants}
+      >
         <div className="flex-1">
           <label
             htmlFor="province"
@@ -132,13 +169,18 @@ export default function VigilEvents() {
             ))}
           </select>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <motion.div
+        className="grid gap-6 md:grid-cols-2"
+        variants={containerVariants}
+      >
         {filteredEvents.map((event) => (
-          <div
+          <motion.div
             key={event.id}
-            className="block bg-gray-900/50  rounded-lg border border-gray-800 hover:border-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-900"
+            variants={itemVariants}
+            className="block bg-gray-900/50 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-900"
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
           >
             <Link href={`/vigil-events/${event.id}`} className="p-6 block">
               <h3 className="text-xl font-serif mb-2">
@@ -273,15 +315,18 @@ export default function VigilEvents() {
                 </div>
               </div>
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {filteredEvents.length === 0 && (
-        <div className="text-center text-gray-400 py-8">
+        <motion.div
+          className="text-center text-gray-400 py-8"
+          variants={itemVariants}
+        >
           No events found matching the selected filters.
-        </div>
+        </motion.div>
       )}
-    </section>
+    </motion.section>
   );
 }

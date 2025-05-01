@@ -75,7 +75,7 @@ export default function MemorialWall() {
   const { data, isLoading, isError } = useMemorialMessages(
     currentPage,
     MESSAGES_PER_PAGE,
-    false
+    "approved"
   );
 
   const messages = data?.messages || [];

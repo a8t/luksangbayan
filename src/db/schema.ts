@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, date, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, date } from "drizzle-orm/pg-core";
 
 export const vigilEvents = pgTable("vigil_events", {
   id: serial("id").primaryKey(),

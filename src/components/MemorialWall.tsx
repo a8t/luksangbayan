@@ -74,7 +74,8 @@ export default function MemorialWall() {
 
   const { data, isLoading, isError } = useMemorialMessages(
     currentPage,
-    MESSAGES_PER_PAGE
+    MESSAGES_PER_PAGE,
+    false
   );
 
   const messages = data?.messages || [];
@@ -107,7 +108,6 @@ export default function MemorialWall() {
           email: "",
           message: "",
         });
-        // The cache will be invalidated automatically by the server action
       } else {
         setError(result.error || "Failed to submit message");
       }
@@ -305,7 +305,6 @@ export default function MemorialWall() {
                 ))}
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex justify-center space-x-2 mt-8">
                   <button

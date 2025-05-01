@@ -5,6 +5,7 @@ import {
   timestamp,
   date,
   varchar,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 
 export const vigilEvents = pgTable("vigil_events", {
@@ -22,6 +23,12 @@ export const vigilEvents = pgTable("vigil_events", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const memorialMessageStatus = pgEnum("memorial_message_status", [
+  "pending",
+  "approved",
+  "rejected",
+]);
+
 export const memorialMessages = pgTable("memorial_messages", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -30,6 +37,10 @@ export const memorialMessages = pgTable("memorial_messages", {
   country: text("country").notNull().default("Canada"),
   email: text("email"),
   message: text("message").notNull(),
+  status: memorialMessageStatus("status").notNull().default("pending"),
+  moderatedAt: timestamp("moderated_at"),
+  moderatedBy: text("moderated_by"),
+  rejectionReason: text("rejection_reason"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

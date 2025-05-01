@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { checkAdminStatus } from "@/app/actions";
+import Image from "next/image";
 
 interface VigilEvent {
   id: number;
@@ -17,6 +18,7 @@ interface VigilEvent {
   createdAt: string;
   updatedAt: string;
   links: string[];
+  image?: string;
 }
 
 export default function VigilEventPage() {
@@ -114,7 +116,23 @@ export default function VigilEventPage() {
 
   return (
     <div className="min-h-screen bg-gray-900 py-6">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {event.image && (
+          <div className="relative w-full h-64 md:h-96 mb-8 rounded-lg overflow-hidden">
+            <Image
+              src={event.image}
+              alt={`Event in ${event.city}, ${event.province}`}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
+
+        <h1 className="text-3xl md:text-4xl font-serif mb-6">
+          {event.city}, {event.province}
+        </h1>
+
         <div className="flex items-center space-x-4 mb-4">
           <Link
             href="/"
@@ -127,9 +145,9 @@ export default function VigilEventPage() {
           <div className="p-6">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-100 mb-2">
-                  {event.city}, {event.province}
-                </h1>
+                <h2 className="text-xl font-semibold text-gray-100 mb-2">
+                  Date
+                </h2>
                 <p className="text-lg text-gray-300">
                   {formattedDate} at {event.time}
                 </p>

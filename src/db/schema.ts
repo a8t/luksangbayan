@@ -21,3 +21,5 @@ export const vigilEvents = pgTable("vigil_events", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export type VigilEvent = typeof vigilEvents.$inferSelect;

@@ -8,7 +8,6 @@ import {
   type MemorialMessage,
 } from "../db/schema";
 import { eq, desc, sql } from "drizzle-orm";
-import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { invalidateQueries } from "@/utils/queryClient";
 
@@ -28,12 +27,6 @@ export async function getCitiesByProvince(province: string) {
     .where(eq(vigilEvents.province, province))
     .orderBy(vigilEvents.date);
   return [...new Set(events.map((event) => event.city))].sort();
-}
-
-export async function checkAdminStatus() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("admin-token");
-  return !!token;
 }
 
 export interface PaginatedMessages {

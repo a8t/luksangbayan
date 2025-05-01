@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { checkAdminStatus } from "@/app/actions";
+import { checkAdminStatus } from "@/lib/auth";
+import { usePendingCount } from "@/hooks/usePendingCount";
 
 export default function Navigation() {
   const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);
+  const { data: pendingCount = 0 } = usePendingCount();
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -46,11 +48,16 @@ export default function Navigation() {
       {isAdmin && (
         <Link
           href="/admin/memorial-messages"
-          className={`text-gray-300 hover:text-white transition-colors ${
+          className={`text-gray-300 hover:text-white transition-colors relative ${
             pathname.startsWith("/admin") ? "text-white" : ""
           }`}
         >
           Admin
+          {pendingCount > 0 && (
+            <span className="absolute -top-2 -right-4 bg-yellow-500 text-black text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
+              {pendingCount}
+            </span>
+          )}
         </Link>
       )}
     </nav>

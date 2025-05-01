@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import MemorialWall from "@/components/MemorialWall";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://luksangbayan.com"),
   title: "Memorial Wall | Luksang Bayan",
   description: "Share your messages of remembrance and solidarity.",
 };

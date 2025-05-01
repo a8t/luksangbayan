@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePendingCount } from "@/hooks/usePendingCount";
 
 const navItems = [
   {
@@ -22,6 +23,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { data: pendingCount = 0 } = usePendingCount();
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -41,13 +43,19 @@ export default function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  className={`px-3 py-2 rounded-md text-sm font-medium relative ${
                     pathname === item.href
                       ? "bg-gray-800 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white"
                   }`}
                 >
                   {item.label}
+                  {item.href === "/admin/memorial-messages" &&
+                    pendingCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
+                        {pendingCount}
+                      </span>
+                    )}
                 </Link>
               ))}
             </div>

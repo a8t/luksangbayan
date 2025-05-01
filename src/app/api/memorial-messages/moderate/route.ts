@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { memorialMessages } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { checkAdminStatus } from "@/app/actions";
+import { checkAdminStatus } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {

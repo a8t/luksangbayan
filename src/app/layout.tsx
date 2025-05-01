@@ -6,6 +6,7 @@ import QueryProvider from "@/providers/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://luksangbayan.com"),
   title: "Luksang Bayan",
   description:
     "Week of Mourning of Filipino Communities and Supporters across Canada",

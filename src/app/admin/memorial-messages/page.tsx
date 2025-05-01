@@ -1,9 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useMemorialMessages } from "@/hooks/useMemorialMessages";
+import { useQuery } from "@tanstack/react-query";
 import { memorialMessageStatus } from "@/db/schema";
 import { motion } from "framer-motion";
+import { usePendingCount } from "@/hooks/usePendingCount";
+
+interface MemorialMessage {
+  id: number;
+  message: string;
+  name: string;
+  email: string | null;
+  city: string;
+  province: string;
+  country: string;
+  status: "pending" | "approved" | "rejected";
+  rejectionReason: string | null;
+  createdAt: string;
+}
 
 const MESSAGES_PER_PAGE = 20;
 
@@ -18,6 +32,7 @@ async function moderateMessage(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("admin-token")}`,
     },
     body: JSON.stringify({
       messageId,
@@ -33,6 +48,24 @@ async function moderateMessage(
   return response.json();
 }
 
+async function fetchMessages(page: number, status: string | "all") {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    perPage: MESSAGES_PER_PAGE.toString(),
+    ...(status !== "all" && { status }),
+  });
+
+  const response = await fetch(`/api/memorial-messages?${params}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("admin-token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch messages");
+  }
+  return response.json();
+}
+
 export default function AdminMemorialMessages() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState<string>("pending");
@@ -42,29 +75,16 @@ export default function AdminMemorialMessages() {
     null
   );
 
-  const { data, isLoading, isError, refetch } = useMemorialMessages(
-    currentPage,
-    MESSAGES_PER_PAGE,
-    true
-  );
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["messages", currentPage, selectedStatus],
+    queryFn: () => fetchMessages(currentPage, selectedStatus),
+  });
+
+  const { refetch: refetchPendingCount } = usePendingCount();
 
   const messages = data?.messages || [];
   const totalCount = data?.totalCount || 0;
   const totalPages = Math.ceil(totalCount / MESSAGES_PER_PAGE);
-  const isAdmin = data?.isAdmin;
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-black text-white p-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-serif text-center">Unauthorized</h1>
-          <p className="text-center mt-4">
-            You do not have access to this page.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   const handleModerate = async (messageId: number, action: ModerateAction) => {
     try {
@@ -77,14 +97,11 @@ export default function AdminMemorialMessages() {
       setMessageToModerate(null);
       setRejectionReason("");
       refetch();
+      refetchPendingCount();
     } catch {
       setModerationError("Failed to moderate message");
     }
   };
-
-  const filteredMessages = messages.filter(
-    (msg) => selectedStatus === "all" || msg.status === selectedStatus
-  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -107,7 +124,10 @@ export default function AdminMemorialMessages() {
           <div className="flex items-center gap-4">
             <select
               value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
+              onChange={(e) => {
+                setSelectedStatus(e.target.value);
+                setCurrentPage(1); // Reset to first page when changing status
+              }}
               className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
             >
               <option value="all">All Messages</option>
@@ -134,12 +154,12 @@ export default function AdminMemorialMessages() {
           <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded">
             Error loading messages
           </div>
-        ) : filteredMessages.length === 0 ? (
+        ) : messages.length === 0 ? (
           <p className="text-gray-400 text-center py-8">No messages found</p>
         ) : (
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-4">
-              {filteredMessages.map((message) => (
+              {messages.map((message: MemorialMessage) => (
                 <motion.div
                   key={message.id}
                   initial={{ opacity: 0, y: 20 }}

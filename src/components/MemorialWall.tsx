@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { createMemorialMessage, getMemorialMessages } from "@/app/actions";
-import type { MemorialMessage } from "@/db/schema";
+import { createMemorialMessage } from "@/app/actions";
+import { useMemorialMessages } from "@/hooks/useMemorialMessages";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -38,6 +38,7 @@ interface FormData {
 }
 
 const DRAFT_KEY = "memorial-wall-draft";
+const MESSAGES_PER_PAGE = 10;
 
 const getStoredDraft = (): FormData | null => {
   if (typeof window === "undefined") return null;
@@ -54,45 +55,31 @@ const clearDraft = () => {
 };
 
 export default function MemorialWall() {
-  const [messages, setMessages] = useState<MemorialMessage[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    city: "",
-    province: "",
-    country: "Canada",
-    email: "",
-    message: "",
+  const [formData, setFormData] = useState<FormData>(() => {
+    const draft = getStoredDraft();
+    return (
+      draft || {
+        name: "",
+        city: "",
+        province: "",
+        country: "Canada",
+        email: "",
+        message: "",
+      }
+    );
   });
 
-  useEffect(() => {
-    const loadMessages = async () => {
-      try {
-        const data = await getMemorialMessages();
-        setMessages([
-          ...data,
-          ...data,
-          ...data,
-          ...data,
-          ...data,
-          ...data,
-          ...data,
-        ]);
-      } catch (error) {
-        console.error("Failed to load messages:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadMessages();
+  const { data, isLoading, isError } = useMemorialMessages(
+    currentPage,
+    MESSAGES_PER_PAGE
+  );
 
-    const draft = getStoredDraft();
-    if (draft) {
-      setFormData(draft);
-    }
-  }, []);
+  const messages = data?.messages || [];
+  const totalCount = data?.totalCount || 0;
+  const totalPages = Math.ceil(totalCount / MESSAGES_PER_PAGE);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -120,8 +107,7 @@ export default function MemorialWall() {
           email: "",
           message: "",
         });
-        const updatedMessages = await getMemorialMessages();
-        setMessages(updatedMessages);
+        // The cache will be invalidated automatically by the server action
       } else {
         setError(result.error || "Failed to submit message");
       }
@@ -132,6 +118,14 @@ export default function MemorialWall() {
     }
   };
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    // Scroll the messages section into view
+    document
+      .getElementById("messages-section")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <motion.div
       className="max-w-4xl mx-auto"
@@ -139,7 +133,7 @@ export default function MemorialWall() {
       animate="visible"
       variants={containerVariants}
     >
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid gap-8 mx-auto">
         {/* Message Form */}
         <motion.div variants={itemVariants}>
           <form
@@ -155,58 +149,78 @@ export default function MemorialWall() {
             )}
 
             <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-300 mb-1"
-                >
-                  Name *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-300 mb-1"
+                  >
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-300 mb-1"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label
-                  htmlFor="city"
-                  className="block text-sm font-medium text-gray-300 mb-1"
-                >
-                  City *
-                </label>
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  required
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
-                />
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-medium text-gray-300 mb-1"
+                  >
+                    City *
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    required
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  />
+                </div>
 
-              <div>
-                <label
-                  htmlFor="province"
-                  className="block text-sm font-medium text-gray-300 mb-1"
-                >
-                  Province *
-                </label>
-                <input
-                  type="text"
-                  id="province"
-                  name="province"
-                  required
-                  value={formData.province}
-                  onChange={handleInputChange}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
-                />
+                <div>
+                  <label
+                    htmlFor="province"
+                    className="block text-sm font-medium text-gray-300 mb-1"
+                  >
+                    Province *
+                  </label>
+                  <input
+                    type="text"
+                    id="province"
+                    name="province"
+                    required
+                    value={formData.province}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  />
+                </div>
               </div>
 
               <div>
@@ -214,30 +228,14 @@ export default function MemorialWall() {
                   htmlFor="country"
                   className="block text-sm font-medium text-gray-300 mb-1"
                 >
-                  Country
+                  Country *
                 </label>
                 <input
                   type="text"
                   id="country"
                   name="country"
+                  required
                   value={formData.country}
-                  onChange={handleInputChange}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-300 mb-1"
-                >
-                  Email (optional)
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
                   onChange={handleInputChange}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
                 />
@@ -258,64 +256,78 @@ export default function MemorialWall() {
                   value={formData.message}
                   onChange={handleInputChange}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
-                ></textarea>
+                />
               </div>
 
-              <div className="flex justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    clearDraft();
-                    setFormData({
-                      name: "",
-                      city: "",
-                      province: "",
-                      country: "Canada",
-                      email: "",
-                      message: "",
-                    });
-                  }}
-                  className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
-                >
-                  Clear Draft
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting..." : "Share Message"}
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Submitting..." : "Share Message"}
+              </button>
             </div>
           </form>
         </motion.div>
 
         {/* Messages Display */}
-        <motion.div variants={itemVariants} className="space-y-4">
-          <h2 className="text-2xl font-serif mb-6">Recent Messages</h2>
+        <motion.div
+          variants={itemVariants}
+          id="messages-section"
+          className="space-y-6 mx-auto break-all"
+        >
+          <h2 className="text-2xl font-serif mb-6">Messages</h2>
+
           {isLoading ? (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white mx-auto"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
+            </div>
+          ) : isError ? (
+            <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded">
+              Error loading messages
             </div>
           ) : messages.length === 0 ? (
-            <p className="text-gray-400 text-center py-8">
-              No messages yet. Be the first to share your message.
-            </p>
+            <p className="text-gray-400 text-center py-8">No messages yet</p>
           ) : (
-            messages.map((msg) => (
-              <motion.div
-                key={msg.id}
-                variants={itemVariants}
-                className="bg-gray-900/50 border border-gray-800 rounded-lg p-4"
-              >
-                <p className="text-gray-300 mb-2">{msg.message}</p>
-                <p className="text-sm text-gray-400">
-                  {msg.name} from {msg.city}, {msg.province}
-                  {msg.country !== "Canada" && `, ${msg.country}`}
-                </p>
-              </motion.div>
-            ))
+            <>
+              <div className="space-y-4">
+                {messages.map((message) => (
+                  <motion.div
+                    key={message.id}
+                    variants={itemVariants}
+                    className="bg-gray-900/50 border border-gray-800 rounded-lg p-4"
+                  >
+                    <p className="text-gray-300 mb-2">{message.message}</p>
+                    <p className="text-sm text-gray-400">
+                      - {message.name} from {message.city}, {message.province}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex justify-center space-x-2 mt-8">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1 rounded-md bg-gray-800 text-white disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
+                  <span className="px-3 py-1 text-gray-300">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1 rounded-md bg-gray-800 text-white disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </motion.div>
       </div>

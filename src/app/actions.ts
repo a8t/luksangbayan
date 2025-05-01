@@ -5,10 +5,12 @@ import {
   vigilEvents,
   memorialMessages,
   type NewMemorialMessage,
+  type MemorialMessage,
 } from "../db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { invalidateQueries } from "@/utils/queryClient";
 
 export async function getVigilEvents() {
   return await db.select().from(vigilEvents).orderBy(vigilEvents.date);
@@ -34,17 +36,38 @@ export async function checkAdminStatus() {
   return !!token;
 }
 
-export async function getMemorialMessages() {
-  return await db
-    .select()
-    .from(memorialMessages)
-    .orderBy(desc(memorialMessages.createdAt));
+export interface PaginatedMessages {
+  messages: MemorialMessage[];
+  totalCount: number;
+}
+
+export async function getMemorialMessages(
+  page: number = 1,
+  perPage: number = 10
+): Promise<PaginatedMessages> {
+  const offset = (page - 1) * perPage;
+
+  const [messages, [{ count }]] = await Promise.all([
+    db
+      .select()
+      .from(memorialMessages)
+      .orderBy(desc(memorialMessages.createdAt))
+      .limit(perPage)
+      .offset(offset),
+    db.select({ count: sql<number>`count(*)` }).from(memorialMessages),
+  ]);
+
+  return {
+    messages,
+    totalCount: Number(count),
+  };
 }
 
 export async function createMemorialMessage(message: NewMemorialMessage) {
   try {
     await db.insert(memorialMessages).values(message);
     revalidatePath("/memorial-wall");
+    await invalidateQueries(["memorialMessages"]);
     return { success: true };
   } catch (error) {
     console.error("Failed to create memorial message:", error);

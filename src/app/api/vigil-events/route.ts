@@ -1,10 +1,10 @@
 import { db } from "@/db";
 import { vigilEvents } from "@/db/schema";
 import { desc } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { sql } from "drizzle-orm";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Get total count
     const countResult = await db

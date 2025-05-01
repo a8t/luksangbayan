@@ -7,8 +7,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useVigilEvents } from "@/hooks/useVigilEvents";
 
-const EVENTS_PER_PAGE = 10;
-
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {

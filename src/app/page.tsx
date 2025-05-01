@@ -23,11 +23,19 @@ const titleVariants = {
 };
 
 const subtitleContainerVariants = {
+  initial: {
+    opacity: 0,
+  },
   animate: {
+    opacity: 1,
     transition: {
       staggerChildren: 0.15,
-      delayChildren: 1,
+      delayChildren: 0.5,
     },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 1.0 },
   },
 };
 
@@ -115,6 +123,7 @@ export default function Home() {
             variants={subtitleContainerVariants}
             initial="initial"
             animate="animate"
+            exit="exit"
             className="text-xl md:text-2xl text-center text-gray-300 max-w-2xl px-4 flex flex-wrap justify-center gap-x-2"
           >
             {subtitleWords.map((word, index) => (

@@ -162,7 +162,7 @@ export default function VigilEventPage() {
                 </div>
               )}
 
-              {event.links && (
+              {event.links.length > 0 && (
                 <div>
                   <h2 className="text-xl font-semibold text-gray-100 mb-2">
                     Links

@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { checkAdminStatus } from "@/app/actions";
 import Image from "next/image";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
 
 interface VigilEvent {
   id: number;
@@ -27,21 +27,8 @@ export default function VigilEventPage() {
   const [event, setEvent] = useState<VigilEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    const checkAdmin = async () => {
-      try {
-        const adminStatus = await checkAdminStatus();
-        setIsAdmin(adminStatus);
-      } catch (err) {
-        console.error("Failed to check admin status:", err);
-        setIsAdmin(false);
-      }
-    };
-
-    checkAdmin();
-  }, []);
+  const { data: adminStatus } = useAdminStatus();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -214,7 +201,7 @@ export default function VigilEventPage() {
         </div>
 
         <div className="flex justify-end">
-          {isAdmin && (
+          {adminStatus && (
             <button
               onClick={() =>
                 router.push(`/admin/dashboard/vigil-events/${event.id}/edit`)

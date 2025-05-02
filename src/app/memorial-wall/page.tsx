@@ -5,6 +5,24 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://luksangbayan.com"),
   title: "Memorial Wall | Luksang Bayan",
   description: "Share your messages of remembrance and solidarity.",
+  openGraph: {
+    title: "Memorial Wall | Luksang Bayan",
+    description: "Share your messages of remembrance and solidarity.",
+    images: [
+      {
+        url: "/og",
+        width: 1200,
+        height: 630,
+        alt: "Memorial Wall | Luksang Bayan",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Memorial Wall | Luksang Bayan",
+    description: "Share your messages of remembrance and solidarity.",
+    images: ["/og?type=twitter"],
+  },
 };
 
 export default function MemorialWallPage() {

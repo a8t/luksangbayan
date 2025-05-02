@@ -92,7 +92,7 @@ export default function About() {
                 plowed into a crowd celebrating a Lapu-Lapu Day Festival in
                 Vancouver, British Columbia. The event marked the 500th
                 anniversary of the Battle of Mactan, where Filipino hero
-                Lapu-Lapu repelled Spanish explorer Ferdinand Magellan.
+                Lapu-Lapu defeated Spanish explorer Ferdinand Magellan.
               </p>
 
               <p className="mb-6">
@@ -151,7 +151,7 @@ export default function About() {
               </p>
 
               <p className="mb-6">
-                If you would like to host a vigil and share it header, or if you
+                If you would like to host a vigil and share it here, or if you
                 have any questions, comments, or suggestions, please contact us
                 at{" "}
                 <a

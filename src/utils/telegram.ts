@@ -38,6 +38,9 @@ export async function sendTelegramMessage(message: string) {
         chat_id: TELEGRAM_CHAT_ID,
         text: message,
         parse_mode: "HTML",
+        link_preview_options: {
+          is_disabled: true,
+        },
       }),
     }
   );

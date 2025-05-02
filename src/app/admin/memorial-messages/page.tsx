@@ -180,7 +180,7 @@ export default function AdminMemorialMessages() {
                           {new Date(message.createdAt).toLocaleString()}
                         </span>
                       </div>
-                      <p className="text-gray-300 mb-4 break-all">
+                      <p className="text-gray-300 mb-4 break-words">
                         {message.message}
                       </p>
                       <div className="text-sm text-gray-400">

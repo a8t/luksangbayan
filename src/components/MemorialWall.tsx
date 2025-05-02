@@ -63,7 +63,7 @@ export default function MemorialWall() {
         <motion.div
           variants={itemVariants}
           id="messages-section"
-          className="space-y-6 mx-auto break-all pb-48"
+          className="space-y-6 mx-auto break-words pb-48"
         >
           {isLoading ? (
             <div className="text-center py-8">

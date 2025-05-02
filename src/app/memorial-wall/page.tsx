@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Share your messages of remembrance and solidarity.",
     images: [
       {
-        url: "/og",
+        url: "/vigil.jpg",
         width: 1200,
         height: 630,
         alt: "Memorial Wall | Luksang Bayan",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Memorial Wall | Luksang Bayan",
     description: "Share your messages of remembrance and solidarity.",
-    images: ["/og?type=twitter"],
+    images: ["/vigil.jpg"],
   },
 };
 

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: "In grief and solidarity",
     images: [
       {
-        url: "/og",
+        url: "/vigil.jpg",
         width: 1200,
         height: 630,
         alt: "Vigil Events Across Canada",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Vigil Events Across Canada",
     description: "In grief and solidarity",
-    images: ["/og?type=twitter"],
+    images: ["/vigil.jpg"],
   },
 };
 

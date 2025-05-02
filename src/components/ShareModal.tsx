@@ -178,7 +178,12 @@ export default function ShareModal({
             </button>
             <p className="text-xs text-gray-400 text-center">
               Scan or share this code to visit{" "}
-              <span className="font-mono">luksangbayan.ca</span>
+              <span className="font-mono">
+                www.luksangbayan.ca
+                {window.location.pathname === "/memorial-wall"
+                  ? "/memorial-wall"
+                  : ""}
+              </span>
             </p>
           </div>
         </div>

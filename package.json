@@ -12,7 +12,8 @@
     "db:seed": "tsx scripts/seed-db.ts",
     "db:migrate": "tsx scripts/migrate.ts",
     "vercel-build": "npm run db:migrate && npm run db:seed && npm run build",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.41.0",
@@ -44,11 +45,18 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "eslint-config-prettier": "^10.1.2",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^15.5.1",
     "tailwindcss": "^4",
     "tsx": "^4.7.1",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.1.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "next lint --fix --file"
+    ]
   }
 }

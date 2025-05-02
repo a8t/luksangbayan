@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Navigation from "@/components/Navigation";
 
 const titleVariants = {
   initial: {
@@ -162,26 +163,7 @@ export default function Home() {
           <div className="relative z-10">
             <div className="container mx-auto px-4 py-8">
               <header className="text-center mb-12">
-                <nav className="mb-6 flex justify-end gap-x-4">
-                  <Link
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors inline-flex items-center"
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    href="/memorial-wall"
-                    className="text-gray-300 hover:text-white transition-colors inline-flex items-center"
-                  >
-                    Memorial Wall
-                  </Link>
-                  <Link
-                    href="/about"
-                    className="text-gray-300 hover:text-white transition-colors inline-flex items-center"
-                  >
-                    About
-                  </Link>
-                </nav>
+                <Navigation />
                 <h1 className="text-4xl md:text-6xl font-serif mb-4">
                   Luksang Bayan
                 </h1>

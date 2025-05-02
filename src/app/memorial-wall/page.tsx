@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import MemorialWall from "@/components/MemorialWall";
+import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://luksangbayan.com"),
@@ -28,11 +29,20 @@ export const metadata: Metadata = {
 export default function MemorialWallPage() {
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-serif text-center mb-8">Memorial Wall</h1>
-      <p className="text-gray-300 text-center max-w-2xl mx-auto mb-12">
-        Share your messages of remembrance and solidarity. Your words help build
-        a collective memory of our shared grief and hope.
-      </p>
+      <header className="text-center mb-12">
+        <Navigation />
+        <h1 className="text-4xl md:text-6xl font-serif mb-4">Luksang Bayan</h1>
+        <p className="text-xl md:text-2xl text-gray-300">
+          Week of Mourning of Filipino Communities and Supporters across Canada
+        </p>
+      </header>
+
+      <div className="max-w-3xl mx-auto text-center mb-12">
+        <p className="text-lg text-gray-300 mb-8">
+          In memory of those we have lost, and in solidarity with those who
+          grieve.
+        </p>
+      </div>
       <MemorialWall />
     </main>
   );

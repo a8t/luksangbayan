@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import storage from "@/lib/storage";
-
+import { checkAdminStatus } from "@/lib/auth";
 export async function POST(request: Request): Promise<NextResponse> {
+  const isAdmin = await checkAdminStatus();
+  if (!isAdmin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get("filename");
 

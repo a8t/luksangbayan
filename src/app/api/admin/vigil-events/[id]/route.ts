@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
-import { verify } from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { db } from "@/db";
 import { vigilEvents } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import storage from "@/lib/storage";
-
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+import { checkAdminStatus } from "@/lib/auth";
 
 // GET /api/admin/vigil-events/[id]
 export async function GET(
@@ -14,17 +11,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Verify admin token
-    const cookieStore = await cookies();
-    const token = cookieStore.get("admin-token")?.value;
-    if (!token) {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    try {
-      verify(token, JWT_SECRET);
-    } catch {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -55,17 +44,9 @@ export async function PUT(
 ) {
   try {
     const resolvedParams = await params;
-    // Verify admin token
-    const cookieStore = await cookies();
-    const token = cookieStore.get("admin-token")?.value;
-    if (!token) {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    try {
-      verify(token, JWT_SECRET);
-    } catch {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
     const data = await request.json();
@@ -119,17 +100,9 @@ export async function DELETE(
 ) {
   try {
     const resolvedParams = await params;
-    // Verify admin token
-    const cookieStore = await cookies();
-    const token = cookieStore.get("admin-token")?.value;
-    if (!token) {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    try {
-      verify(token, JWT_SECRET);
-    } catch {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
     // Get the event to delete its image if it exists

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import MemorialWall from "@/components/MemorialWall";
 import Navigation from "@/components/Navigation";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://luksangbayan.ca"),
@@ -26,33 +27,65 @@ export const metadata: Metadata = {
   },
 };
 
+const contentVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
 export default function MemorialWallPage() {
   return (
     <main className="container mx-auto px-4 py-8">
-      <header className="text-center mb-12">
-        <Navigation />
-        <h1 className="text-4xl md:text-6xl font-serif mb-4">Luksang Bayan</h1>
-        <p className="text-xl md:text-2xl text-gray-300">
-          Week of Mourning of Filipino Communities and Supporters across Canada
-        </p>
-      </header>
+      {/* Fixed background container */}
+      <div className="fixed inset-0 w-full h-full z-0">
+        <Image
+          src="/vigil.jpg"
+          alt="Candlelight vigil"
+          fill
+          className="object-cover brightness-15 max-h-[1080px]"
+          priority
+          sizes="100vw"
+        />
+      </div>
 
-      {/* Moderation Notice */}
-      <div className="max-w-2xl mx-auto mb-8">
-        <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-3 rounded text-center text-sm">
-          All messages will be reviewed by an administrator to ensure respectful
-          usage of the memorial wall. Messages will be approved within 24 hours,
-          and usually much faster.
+      {/* Scrollable content */}
+      <div className="relative z-10">
+        <header className="text-center mb-12">
+          <Navigation />
+          <h1 className="text-4xl md:text-6xl font-serif mb-4">
+            Luksang Bayan
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300">
+            Week of Mourning of Filipino Communities and Supporters across
+            Canada
+          </p>
+        </header>
+
+        {/* Moderation Notice */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-3 rounded text-center text-sm">
+            All messages will be reviewed by an administrator to ensure
+            respectful usage of the memorial wall. Messages will be approved
+            within 24 hours, and usually much faster.
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-3xl mx-auto text-center mb-12">
-        <p className="text-lg text-gray-300 mb-8">
-          In memory of those we have lost, and in solidarity with those who
-          grieve.
-        </p>
+        <div className="max-w-3xl mx-auto text-center mb-12">
+          <p className="text-lg text-gray-300 mb-8">
+            In memory of those we have lost, and in solidarity with those who
+            grieve.
+          </p>
+        </div>
+        <MemorialWall />
       </div>
-      <MemorialWall />
     </main>
   );
 }

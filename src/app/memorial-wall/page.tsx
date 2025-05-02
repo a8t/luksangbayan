@@ -56,11 +56,16 @@ export default function MemorialWallPage() {
         </header>
 
         {/* Moderation Notice */}
-        <div className="max-w-2xl mx-auto mb-8">
+        <div className="max-w-lg mx-auto mb-8">
           <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-3 rounded text-center text-sm">
-            All messages will be reviewed by an administrator to ensure
-            respectful usage of the memorial wall. Messages will be approved
-            within 24 hours, and usually much faster.
+            <p>
+              All messages will be reviewed by a volunteer administrator to
+              ensure respectful usage of the memorial wall.
+            </p>
+            <p className="mt-2">
+              Messages will be approved within 24 hours, and usually much
+              faster.
+            </p>
           </div>
         </div>
 

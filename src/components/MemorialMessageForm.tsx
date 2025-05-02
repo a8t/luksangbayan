@@ -110,7 +110,9 @@ export default function MemorialMessageForm() {
         initial={{ y: "calc(100% - 80px)" }}
         animate={{ y: isOpen ? 0 : "calc(100% - 80px)" }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="mx-2 sm:mx-16 md:mx-24 fixed bottom-0 left-0 right-0 bg-gray-700/95 border-t border-gray-800 rounded-t-xl shadow-xl z-50 max-h-[90vh] overflow-y-auto"
+        className={`mx-2 sm:mx-16 md:mx-24 fixed bottom-0 left-0 right-0 bg-gray-700/95 border-t border-gray-800 rounded-t-xl shadow-xl z-50 max-h-[90vh] ${
+          isOpen ? "overflow-y-auto" : "overflow-y-clip"
+        }`}
       >
         {/* Peek Handle */}
         <div
@@ -142,10 +144,10 @@ export default function MemorialMessageForm() {
 
         {/* Form Content */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isOpen ? 1 : 0 }}
+          initial={{ opacity: 0, height: "1px" }}
+          animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? "auto" : "1px" }}
           transition={{ delay: 0.1 }}
-          className="px-4 py-6"
+          className="px-4 pt-2 pb-6"
         >
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
             {error && (
@@ -281,17 +283,15 @@ export default function MemorialMessageForm() {
               </div>
 
               <div className="max-w-2xl mx-auto mb-2">
-                <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-3 rounded text-center text-sm">
-                  All messages will be reviewed by an administrator to ensure
-                  respectful usage of the memorial wall. Messages will be
-                  approved within 24 hours, and usually much faster.
+                <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-2 rounded text-center text-xs">
+                  Messages are reviewed within 24 hours.
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gray-500 hover:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-green-700 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Submitting..." : "Share Message"}
               </button>

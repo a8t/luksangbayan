@@ -198,6 +198,9 @@ export default function MemorialMessageForm() {
                     onChange={handleInputChange}
                     className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
                   />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Optional, won&apos;t be displayed.
+                  </p>
                 </div>
               </div>
 

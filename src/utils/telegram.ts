@@ -37,11 +37,13 @@ export async function sendTelegramMessage(message: string) {
       body: JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: message,
+        parse_mode: "HTML",
       }),
     }
   );
 
   if (!response.ok) {
+    console.error("Failed to send message to Telegram", await response.json());
     throw new Error("Failed to send message to Telegram");
   }
 

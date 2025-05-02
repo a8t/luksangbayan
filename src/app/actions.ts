@@ -37,7 +37,9 @@ ${message.name} - ${message.city}, ${message.province}, ${message.country} - ${
 
 ${message.message}
 
-<b>⚠️ There are ${pendingCount} pending messages to review ⚠️</b>
+<b>⚠️ ${pendingCount} pending message${
+        pendingCount === 1 ? "" : "s"
+      } to review ⚠️</b>
 <a href="https://luksangbayan.ca/admin/memorial-messages">🔗 View all pending messages</a>`
     );
     return { success: true };

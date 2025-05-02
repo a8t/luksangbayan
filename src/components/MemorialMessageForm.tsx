@@ -110,14 +110,16 @@ export default function MemorialMessageForm() {
         initial={{ y: "calc(100% - 80px)" }}
         animate={{ y: isOpen ? 0 : "calc(100% - 80px)" }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="fixed bottom-0 left-0 right-0 bg-gray-900/95 border-t border-gray-800 rounded-t-xl shadow-xl z-50 max-h-[90vh] overflow-y-auto"
+        className="mx-2 sm:mx-16 md:mx-24 fixed bottom-0 left-0 right-0 bg-gray-700/95 border-t border-gray-800 rounded-t-xl shadow-xl z-50 max-h-[90vh] overflow-y-auto"
       >
         {/* Peek Handle */}
         <div
-          className="h-20 flex items-center justify-center cursor-pointer hover:bg-gray-800/50 transition-colors"
+          className="h-20 flex items-center justify-center cursor-pointer hover:bg-gray-600/50 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <h2 className="text-2xl font-serif">📝 Share Your Message</h2>
+          <h2 className="text-lg sm:text-2xl font-serif">
+            📝 Share Your Message
+          </h2>
           <motion.div
             animate={{ rotate: isOpen ? 0 : 180 }}
             className="absolute right-4"
@@ -143,7 +145,7 @@ export default function MemorialMessageForm() {
           initial={{ opacity: 0 }}
           animate={{ opacity: isOpen ? 1 : 0 }}
           transition={{ delay: 0.1 }}
-          className="px-4 pb-6"
+          className="px-4 py-6"
         >
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
             {error && (
@@ -278,10 +280,18 @@ export default function MemorialMessageForm() {
                 />
               </div>
 
+              <div className="max-w-2xl mx-auto mb-2">
+                <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-3 rounded text-center text-sm">
+                  All messages will be reviewed by an administrator to ensure
+                  respectful usage of the memorial wall. Messages will be
+                  approved within 24 hours, and usually much faster.
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gray-500 hover:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Submitting..." : "Share Message"}
               </button>

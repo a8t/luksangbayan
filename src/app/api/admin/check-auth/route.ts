@@ -9,18 +9,12 @@ export async function GET() {
     const token = (await cookies()).get("admin-token")?.value;
 
     if (!token) {
-      return NextResponse.json(
-        { authenticated: false },
-        { status: 302, headers: { Location: "/admin/login" } }
-      );
+      return NextResponse.json({ authenticated: false }, { status: 401 });
     }
 
     verify(token, JWT_SECRET);
     return NextResponse.json({ authenticated: true });
   } catch {
-    return NextResponse.json(
-      { authenticated: false },
-      { status: 302, headers: { Location: "/admin/login" } }
-    );
+    return NextResponse.json({ authenticated: false }, { status: 401 });
   }
 }

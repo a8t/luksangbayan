@@ -37,6 +37,15 @@ export default function MemorialWallPage() {
         </p>
       </header>
 
+      {/* Moderation Notice */}
+      <div className="max-w-2xl mx-auto mb-8">
+        <div className="bg-blue-900/40 border border-blue-700 text-blue-100 px-4 py-3 rounded text-center text-sm">
+          All messages will be reviewed by an administrator to ensure respectful
+          usage of the memorial wall. Messages will be approved within 24 hours,
+          and usually much faster.
+        </div>
+      </div>
+
       <div className="max-w-3xl mx-auto text-center mb-12">
         <p className="text-lg text-gray-300 mb-8">
           In memory of those we have lost, and in solidarity with those who

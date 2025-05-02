@@ -119,6 +119,9 @@ export default function ShareModal({
         </button>
         <h2 className="text-xl font-bold mb-4 text-center">
           Share Luksang Bayan
+          {window.location.pathname === "/memorial-wall"
+            ? " Memorial Wall"
+            : ""}
         </h2>
         <div className="flex flex-col gap-4 mb-6">
           <div className="flex flex-wrap justify-center gap-3">

@@ -119,7 +119,7 @@ export default function MemorialMessageForm() {
         >
           <h2 className="text-2xl font-serif">📝 Share Your Message</h2>
           <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
+            animate={{ rotate: isOpen ? 0 : 180 }}
             className="absolute right-4"
           >
             <svg

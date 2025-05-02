@@ -2,24 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { checkAdminStatus } from "@/lib/auth";
-import { usePendingCount } from "@/hooks/usePendingCount";
+import { useState } from "react";
 import ShareModal from "./ShareModal";
 
 export default function Navigation() {
   const pathname = usePathname();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const { data: pendingCount = 0 } = usePendingCount();
   const [shareOpen, setShareOpen] = useState(false);
-
-  useEffect(() => {
-    const checkAdmin = async () => {
-      const adminStatus = await checkAdminStatus();
-      setIsAdmin(adminStatus);
-    };
-    checkAdmin();
-  }, []);
 
   return (
     <nav className="mb-6 flex justify-end gap-x-6 items-center">
@@ -53,23 +41,7 @@ export default function Navigation() {
       >
         About
       </Link>
-      {isAdmin && (
-        <Link
-          href="/admin/memorial-messages"
-          className={`text-gray-300 hover:text-white transition-colors relative ${
-            pathname.startsWith("/admin")
-              ? "text-white font-bold underline cursor-default"
-              : ""
-          }`}
-        >
-          Admin
-          {pendingCount > 0 && (
-            <span className="absolute -top-2 -right-4 bg-yellow-500 text-black text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
-              {pendingCount}
-            </span>
-          )}
-        </Link>
-      )}
+
       {/* Share Button */}
       <button
         onClick={() => setShareOpen(true)}
@@ -84,11 +56,11 @@ export default function Navigation() {
           xmlns="http://www.w3.org/2000/svg"
           className="w-5 h-5"
         >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
           <g
             id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></g>
           <g id="SVGRepo_iconCarrier">
             <path

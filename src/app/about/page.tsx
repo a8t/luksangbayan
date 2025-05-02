@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Navigation from "@/components/Navigation";
 
 const contentVariants = {
   initial: {
@@ -37,27 +38,7 @@ export default function About() {
       {/* Scrollable content */}
       <div className="relative z-10">
         <div className="container mx-auto px-4 py-8">
-          <nav className="mb-8">
-            <Link
-              href="/"
-              className="text-gray-300 hover:text-white transition-colors inline-flex items-center"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              Back to Events
-            </Link>
-          </nav>
+          <Navigation />
 
           <motion.div
             initial="initial"
@@ -70,14 +51,14 @@ export default function About() {
             </h1>
 
             <div className="prose prose-lg prose-invert mx-auto">
-              <p className="text-xl mb-6">
+              <p>
                 Luksang Bayan, which translates to &quot;National Mourning&quot;
                 or &quot;People&apos;s Mourning&quot; in Filipino, is a
                 collective expression of grief and solidarity within Filipino
                 communities and their supporters across Canada.
               </p>
 
-              <p className="mb-6">
+              <p>
                 This initiative serves as a platform to honor and remember those
                 we have lost, while bringing together communities in shared
                 moments of remembrance and support. Through organized vigils
@@ -85,9 +66,9 @@ export default function About() {
                 mourning, healing, and community building.
               </p>
 
-              <h2 className="text-2xl font-bold mb-4">Background</h2>
+              <h2>Background</h2>
 
-              <p className="mb-6">
+              <p>
                 The tragic incident occurred on April 27, 2025, when a vehicle
                 plowed into a crowd celebrating a Lapu-Lapu Day Festival in
                 Vancouver, British Columbia. The event marked the 500th
@@ -95,31 +76,31 @@ export default function About() {
                 Lapu-Lapu defeated Spanish explorer Ferdinand Magellan.
               </p>
 
-              <p className="mb-6">
+              <p>
                 For more information, please refer to the following articles:
-                <ul className="list-disc pl-6 mb-6">
-                  <li>
-                    <a
-                      className="text-blue-400 hover:text-blue-600"
-                      href="https://www.bbc.com/news/articles/cvgnz7n7zj4o"
-                    >
-                      BBC News Article (overall summary)
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="text-blue-400 hover:text-blue-600"
-                      href="https://www.cbc.ca/news/canada/british-columbia/vehicle-hits-crowd-filipino-festival-lapu-lapu-day-block-party-1.7519778"
-                    >
-                      CBC News Article (more detailed)
-                    </a>
-                  </li>
-                </ul>
               </p>
+              <ul>
+                <li>
+                  <a
+                    className="text-blue-400 hover:text-blue-600"
+                    href="https://www.bbc.com/news/articles/cvgnz7n7zj4o"
+                  >
+                    BBC News Article (overall summary)
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="text-blue-400 hover:text-blue-600"
+                    href="https://www.cbc.ca/news/canada/british-columbia/vehicle-hits-crowd-filipino-festival-lapu-lapu-day-block-party-1.7519778"
+                  >
+                    CBC News Article (more detailed)
+                  </a>
+                </li>
+              </ul>
 
-              <h2 className="text-2xl font-bold mb-4">About Luksang Bayan</h2>
+              <h2>About Luksang Bayan</h2>
 
-              <p className="mb-6">
+              <p>
                 The call for a country-wide mourning under the banner of Luksang
                 Bayan was initiated by{" "}
                 <a
@@ -135,22 +116,20 @@ export default function About() {
                 Philippines.
               </p>
 
-              <p className="mb-6">
+              <p>
                 Vigils and other activities have been organized by local
                 communities and supporters across Canada.
               </p>
 
-              <h2 className="text-2xl font-bold mb-4">
-                How can I participate?
-              </h2>
+              <h2>How can I participate?</h2>
 
-              <p className="mb-6">
+              <p>
                 The Luksang Bayan is a call for solidarity and mourning for the
                 victims of the incident. Any who would like to gather in
                 community, share space, and express grief are welcome to join.
               </p>
 
-              <p className="mb-6">
+              <p>
                 If you would like to host a vigil and share it here, or if you
                 have any questions, comments, or suggestions, please contact us
                 at{" "}

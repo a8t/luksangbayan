@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useVigilEvents } from "@/hooks/useVigilEvents";
 
@@ -50,16 +50,14 @@ const formatDate = (date: Date) => {
 
 export default function VigilEvents() {
   const [selectedProvince, setSelectedProvince] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string>("");
 
   const { data, isLoading, isError } = useVigilEvents();
   const events = data?.events || [];
 
   useEffect(() => {
-    if (selectedProvince === "") {
-      setSelectedCity(null);
-    }
-  }, [selectedProvince, selectedCity]);
+    setSelectedCity("");
+  }, [selectedProvince]);
 
   const provinces = new Set(events.map((event) => event.province));
   const citiesFilteredByProvince: Set<string> = selectedProvince
@@ -72,9 +70,15 @@ export default function VigilEvents() {
 
   const filteredEvents = events
     .filter((event) => {
-      if (selectedProvince && event.province !== selectedProvince) return false;
-      if (selectedCity && event.city !== selectedCity) return false;
-      return true;
+      if (selectedProvince === "") {
+        return true;
+      }
+
+      if (selectedCity === "") {
+        return event.province === selectedProvince;
+      }
+
+      return event.province === selectedProvince && event.city === selectedCity;
     })
     .sort((a, b) => {
       const dateA = new Date(a.date);
@@ -120,23 +124,30 @@ export default function VigilEvents() {
             ))}
           </select>
         </div>
-
-        {selectedProvince && (
-          <div className="w-full md:w-auto">
-            <select
-              value={selectedCity || ""}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
+        <AnimatePresence mode="wait">
+          {selectedProvince && (
+            <motion.div
+              className="w-full md:w-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <option value="">All Cities</option>
-              {Array.from(citiesFilteredByProvince).map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+              <select
+                value={selectedCity || ""}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-600"
+              >
+                <option value="">All Cities</option>
+                {Array.from(citiesFilteredByProvince).map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       <motion.div

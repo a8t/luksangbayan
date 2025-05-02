@@ -6,7 +6,7 @@ import QueryProvider from "@/providers/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://luksangbayan.com"),
+  metadataBase: new URL("https://luksangbayan.ca"),
   title: "Luksang Bayan",
   description:
     "Week of Mourning of Filipino Communities and Supporters across Canada",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: "In grief and solidarity",
     images: [
       {
-        url: "/og/vigil.jpg",
+        url: "/og/vigil.png",
         width: 1200,
         height: 630,
         alt: "Vigil Events Across Canada",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Vigil Events Across Canada",
     description: "In grief and solidarity",
-    images: ["/og/vigil.jpg"],
+    images: ["/og/vigil.png"],
   },
 };
 

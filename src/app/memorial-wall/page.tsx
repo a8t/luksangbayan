@@ -3,7 +3,7 @@ import MemorialWall from "@/components/MemorialWall";
 import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://luksangbayan.com"),
+  metadataBase: new URL("https://luksangbayan.ca"),
   title: "Memorial Wall | Luksang Bayan",
   description: "Share your messages of remembrance and solidarity.",
   openGraph: {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Share your messages of remembrance and solidarity.",
     images: [
       {
-        url: "/og/memorial-wall.jpg",
+        url: "/og/memorial-wall.png",
         width: 1200,
         height: 630,
         alt: "Memorial Wall | Luksang Bayan",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Memorial Wall | Luksang Bayan",
     description: "Share your messages of remembrance and solidarity.",
-    images: ["/og/memorial-wall.jpg"],
+    images: ["/og/memorial-wall.png"],
   },
 };
 

@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       .values({
         city: data.city,
         province: data.province,
-        date: data.date,
+        date: new Date(data.date),
         time: data.time,
         location: data.location,
         details: data.details,

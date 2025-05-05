@@ -46,6 +46,8 @@ export async function POST(request: Request) {
       })
       .returning();
 
+    console.log(newEvent);
+
     return NextResponse.json(newEvent, { status: 201 });
   } catch (error) {
     console.error("Error creating event:", error);

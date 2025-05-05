@@ -149,7 +149,11 @@ export default function MemorialMessageForm() {
           transition={{ delay: 0.1 }}
           className="px-4 pt-2 pb-6"
         >
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
+          <form
+            onSubmit={handleSubmit}
+            className="max-w-2xl mx-auto"
+            role="form"
+          >
             {error && (
               <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded mb-4">
                 {error}

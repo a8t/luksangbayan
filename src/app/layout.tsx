@@ -30,6 +30,8 @@ export const metadata: Metadata = {
   },
 };
 
+const enableAnalytics = process.env.NODE_ENV === "production";
+
 export default function RootLayout({
   children,
 }: {
@@ -37,6 +39,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {enableAnalytics && (
+          <script
+            defer
+            data-domain="luksangbayan.ca"
+            src="https://analytics.andytran.ca/js/script.file-downloads.hash.outbound-links.js"
+          ></script>
+        )}
+      </head>
       <body className={inter.className}>
         <QueryProvider>{children}</QueryProvider>
       </body>
